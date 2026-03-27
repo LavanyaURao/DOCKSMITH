@@ -1,0 +1,7 @@
+FROM python:3.11-slim
+WORKDIR /app
+ENV APP_NAME=Docksmith
+ENV VERSION=1.0.0
+COPY app.py /app/app.py
+RUN echo "Build step: listing /app contents" && ls /app
+CMD ["python", "/app/app.py"]

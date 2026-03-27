@@ -1,0 +1,3 @@
+[console_scripts]
+docksmith = docksmith.cli:main
+
