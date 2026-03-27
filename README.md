@@ -80,82 +80,6 @@ sudo docksmith import /tmp/python311slim.tar python:3.11-slim
 
 ---
 
-## CLI Reference
-
-### `docksmith build`
-```bash
-docksmith build -t <name:tag> [--no-cache] <context>
-
-# Examples
-sudo docksmith build -t myapp:latest .
-sudo docksmith build -t myapp:latest --no-cache .
-```
-- Parses `Docksmithfile` in `<context>`
-- Each `COPY`/`RUN` step prints cache status and duration
-- `FROM` steps print without cache status (not a layer-producing step)
-
-### `docksmith images`
-```bash
-docksmith images
-```
-Lists all images: Name, Tag, ID (first 12 chars of digest), Created.
-
-### `docksmith run`
-```bash
-docksmith run [-e KEY=VALUE ...] <name:tag> [cmd ...]
-
-# Examples
-sudo docksmith run myapp:latest
-sudo docksmith run -e APP_NAME=Alice myapp:latest
-sudo docksmith run myapp:latest echo "hello from container"
-```
-- Assembles filesystem, runs command in isolation, waits for exit, prints exit code.
-- `-e` overrides image ENV values. Repeatable.
-
-### `docksmith rmi`
-```bash
-docksmith rmi <name:tag>
-
-# Example
-docksmith rmi myapp:latest
-```
-Removes the manifest and all associated layer files.
-
-### `docksmith import`
-```bash
-docksmith import <tarball.tar> <name:tag>
-
-# Example
-docksmith import /tmp/alpine.tar alpine:3.18
-```
-One-time setup command. Imports a Docker-format tarball into the local store.
-
----
-
-## Requirements
-
-- **Python 3.11+**
-- **Linux** (isolation uses `unshare` + `chroot`)
-- **Root** (`sudo`) for `build` and `run` (required for `chroot`/`unshare`)
-- No Docker, runc, or any container tool used during build/run
-- All operations work fully offline after initial setup
-
----
-
-# Docksmith Setup & Demo Guide
-
-This guide walks you through setting up and running the Docksmith project from scratch.
-
----
-
-## Prerequisites
-
-- macOS (host machine)
-- Docker installed
-- Python 3.10+
-
----
-
 # Setup Instructions
 
 ## Step 1 — Setup project (Mac Terminal)
@@ -284,7 +208,7 @@ No such file or directory
 
 ---
 
-## 🗑️ Demo 8 — Remove Image
+## Demo 8 — Remove Image
 
 ```bash
 docksmith rmi myapp:latest
@@ -305,5 +229,82 @@ docksmith images
 
 - Every time you start a new container:
   - Repeat **Step 5 and Step 6**
+
+---
+
+
+## CLI Reference
+
+### `docksmith build`
+```bash
+docksmith build -t <name:tag> [--no-cache] <context>
+
+# Examples
+sudo docksmith build -t myapp:latest .
+sudo docksmith build -t myapp:latest --no-cache .
+```
+- Parses `Docksmithfile` in `<context>`
+- Each `COPY`/`RUN` step prints cache status and duration
+- `FROM` steps print without cache status (not a layer-producing step)
+
+### `docksmith images`
+```bash
+docksmith images
+```
+Lists all images: Name, Tag, ID (first 12 chars of digest), Created.
+
+### `docksmith run`
+```bash
+docksmith run [-e KEY=VALUE ...] <name:tag> [cmd ...]
+
+# Examples
+sudo docksmith run myapp:latest
+sudo docksmith run -e APP_NAME=Alice myapp:latest
+sudo docksmith run myapp:latest echo "hello from container"
+```
+- Assembles filesystem, runs command in isolation, waits for exit, prints exit code.
+- `-e` overrides image ENV values. Repeatable.
+
+### `docksmith rmi`
+```bash
+docksmith rmi <name:tag>
+
+# Example
+docksmith rmi myapp:latest
+```
+Removes the manifest and all associated layer files.
+
+### `docksmith import`
+```bash
+docksmith import <tarball.tar> <name:tag>
+
+# Example
+docksmith import /tmp/alpine.tar alpine:3.18
+```
+One-time setup command. Imports a Docker-format tarball into the local store.
+
+---
+
+## Requirements
+
+- **Python 3.11+**
+- **Linux** (isolation uses `unshare` + `chroot`)
+- **Root** (`sudo`) for `build` and `run` (required for `chroot`/`unshare`)
+- No Docker, runc, or any container tool used during build/run
+- All operations work fully offline after initial setup
+
+---
+
+# Docksmith Setup & Demo Guide
+
+This guide walks you through setting up and running the Docksmith project from scratch.
+
+---
+
+## Prerequisites
+
+- macOS (host machine)
+- Docker installed
+- Python 3.10+
 
 ---
